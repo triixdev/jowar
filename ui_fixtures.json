@@ -1,0 +1,333 @@
+{
+ "corridors": [
+  {
+   "id": "new-town",
+   "name": "New Town"
+  },
+  {
+   "id": "kaikhali-haldiram",
+   "name": "Kaikhali / Haldiram bridge"
+  },
+  {
+   "id": "salt-lake",
+   "name": "Salt Lake"
+  },
+  {
+   "id": "dum-dum-vip",
+   "name": "Dum Dum / VIP Road"
+  },
+  {
+   "id": "esplanade-new-market",
+   "name": "Esplanade / New Market"
+  },
+  {
+   "id": "bhawanipur-hazra",
+   "name": "Bhawanipur / Hazra"
+  },
+  {
+   "id": "park-street-circus",
+   "name": "Park Street / Park Circus"
+  },
+  {
+   "id": "behala",
+   "name": "Behala"
+  }
+ ],
+ "replays": [
+  {
+   "id": "dana-2024",
+   "name": "Cyclone Dana, 25 Oct 2024",
+   "date": "2024-10-25",
+   "dates": [
+    "2024-10-24",
+    "2024-10-25"
+   ],
+   "default_hour": 11
+  }
+ ],
+ "live": {
+  "level": "High risk",
+  "points": 4,
+  "rain_mm": 60.0,
+  "reasons": [
+   "60 mm forecast rain 11:00-15:00",
+   "high tide at Garden Reach near 13:33; drainage can slow (timing differs elsewhere)"
+  ],
+  "better_time": "16:00 looks lower risk",
+  "mode": "live",
+  "disclaimer": "Risk window from rain and tide times. Not a flood prediction. Check the road before you go.",
+  "fetched_at": "2026-10-11 15:26 IST",
+  "strip": [
+   {
+    "hour": 0,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 1,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 2,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 3,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 4,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 5,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 6,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 7,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 8,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 9,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 10,
+    "level": "Caution",
+    "rain": 20.0
+   },
+   {
+    "hour": 11,
+    "level": "High risk",
+    "rain": 40.0
+   },
+   {
+    "hour": 12,
+    "level": "High risk",
+    "rain": 60.0
+   },
+   {
+    "hour": 13,
+    "level": "High risk",
+    "rain": 60.0
+   },
+   {
+    "hour": 14,
+    "level": "High risk",
+    "rain": 40.0
+   },
+   {
+    "hour": 15,
+    "level": "High risk",
+    "rain": 20.0
+   },
+   {
+    "hour": 16,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 17,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 18,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 19,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 20,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 21,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 22,
+    "level": "Lower risk",
+    "rain": 0.0
+   },
+   {
+    "hour": 23,
+    "level": "Lower risk",
+    "rain": 0.0
+   }
+  ],
+  "high_tides": [
+   "01:19",
+   "13:33"
+  ],
+  "area": "Behala",
+  "history": [
+   "named in PTI report on Cyclone Dana, 25 Oct 2024",
+   "builder's own observation"
+  ]
+ },
+ "replay": {
+  "level": "Caution",
+  "points": 2,
+  "rain_mm": 20.6,
+  "reasons": [
+   "21 mm modelled (replay) rain 09:00-13:00",
+   "tide times not loaded, so tide is not counted"
+  ],
+  "better_time": "07:00 looks lower risk",
+  "mode": "replay",
+  "disclaimer": "Risk window from rain and tide times. Not a flood prediction. Check the road before you go.",
+  "data_note": "Replay uses Open-Meteo modelled rain. For the 24 h to 11:30 IST on 25 Oct 2024 the model shows about 40 mm; the Alipore Met office recorded over 100 mm (PTI). The model understates this event. No tide table is loaded for this date.",
+  "strip": [
+   {
+    "hour": 0,
+    "level": "Lower risk",
+    "rain": 3.2
+   },
+   {
+    "hour": 1,
+    "level": "Lower risk",
+    "rain": 6.4
+   },
+   {
+    "hour": 2,
+    "level": "Lower risk",
+    "rain": 11.0
+   },
+   {
+    "hour": 3,
+    "level": "Caution",
+    "rain": 15.9
+   },
+   {
+    "hour": 4,
+    "level": "Lower risk",
+    "rain": 14.0
+   },
+   {
+    "hour": 5,
+    "level": "Lower risk",
+    "rain": 11.3
+   },
+   {
+    "hour": 6,
+    "level": "Lower risk",
+    "rain": 7.2
+   },
+   {
+    "hour": 7,
+    "level": "Lower risk",
+    "rain": 3.7
+   },
+   {
+    "hour": 8,
+    "level": "Lower risk",
+    "rain": 5.9
+   },
+   {
+    "hour": 9,
+    "level": "Lower risk",
+    "rain": 10.1
+   },
+   {
+    "hour": 10,
+    "level": "Caution",
+    "rain": 16.6
+   },
+   {
+    "hour": 11,
+    "level": "Caution",
+    "rain": 20.6
+   },
+   {
+    "hour": 12,
+    "level": "Caution",
+    "rain": 20.4
+   },
+   {
+    "hour": 13,
+    "level": "Caution",
+    "rain": 19.2
+   },
+   {
+    "hour": 14,
+    "level": "Lower risk",
+    "rain": 13.6
+   },
+   {
+    "hour": 15,
+    "level": "Lower risk",
+    "rain": 9.8
+   },
+   {
+    "hour": 16,
+    "level": "Lower risk",
+    "rain": 7.9
+   },
+   {
+    "hour": 17,
+    "level": "Lower risk",
+    "rain": 6.2
+   },
+   {
+    "hour": 18,
+    "level": "Lower risk",
+    "rain": 5.1
+   },
+   {
+    "hour": 19,
+    "level": "Lower risk",
+    "rain": 3.8
+   },
+   {
+    "hour": 20,
+    "level": "Lower risk",
+    "rain": 2.5
+   },
+   {
+    "hour": 21,
+    "level": "Lower risk",
+    "rain": 1.3
+   },
+   {
+    "hour": 22,
+    "level": "Lower risk",
+    "rain": 3.6
+   },
+   {
+    "hour": 23,
+    "level": "Lower risk",
+    "rain": 6.1
+   }
+  ],
+  "high_tides": [],
+  "area": "Behala",
+  "history": [
+   "named in PTI report on Cyclone Dana, 25 Oct 2024",
+   "builder's own observation"
+  ]
+ }
+}

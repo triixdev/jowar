@@ -1,0 +1,20 @@
+[
+ {
+  "id": "dana-2024",
+  "name": "Cyclone Dana, 25 Oct 2024",
+  "date": "2024-10-25",
+  "file": "replay_dana_utc.json",
+  "source_is_utc": true,
+  "default_hour": 11,
+  "note": "Replay uses Open-Meteo modelled rain. For the 24 h to 11:30 IST on 25 Oct 2024 the model shows about 40 mm; the Alipore Met office recorded over 100 mm (PTI). The model understates this event. No tide table is loaded for this date."
+ },
+ {
+  "id": "sep-2025",
+  "name": "Record rain, 23 Sep 2025",
+  "date": "2025-09-23",
+  "file": "replay_sep2025.json",
+  "source_is_utc": false,
+  "default_hour": 4,
+  "note": "Replay uses Open-Meteo modelled rain. IMD reported 251.4 mm in under 24 hours for Kolkata, with a peak of 98 mm in the hour from 3 to 4 am (PTI). Modelled values can differ a lot from gauges. No tide table is loaded for this date."
+ }
+]

@@ -1,0 +1,11 @@
+.env
+*.pem
+*.csv
+*.zip
+.aws/
+.aws-sam/
+node_modules/
+__pycache__/
+*.pyc
+
+.vercel/

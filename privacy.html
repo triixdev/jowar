@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Privacy policy for Jowar, a student project that shows rain and tide risk for Kolkata commutes.">
+<title>Privacy policy | Jowar</title>
+<style>
+:root{
+  --page:#F4F6F8; --card:#FFFFFF; --ink:#16232E; --muted:#475664; --line:#CBD4DB; --field:#FFFFFF;
+  --steel:#16232E; --steel-text:#F2F5F7; --steel-muted:#B4C1CC;
+  --taxi:#F4B400; --taxi-ink:#16232E;
+  --tram:#1B5FA8; --tram-bg:#E4EEF9;
+  --low:#17683F; --low-bg:#E3F3EA; --mid:#A65300; --mid-bg:#FCE9D2; --high:#A31F17; --high-bg:#FBE4E2; --unk:#5B6B77;
+  --focus:#1B5FA8;
+}
+@media (prefers-color-scheme: dark){
+  :root{--page:#0E161D; --card:#17222C; --ink:#E8EEF2; --muted:#A4B4C0; --line:#2C3E4C; --field:#0E161D;
+  --steel:#0A1117; --steel-text:#F2F5F7; --steel-muted:#A4B4C0;
+  --tram:#7DB6F2; --tram-bg:#16293C;
+  --low:#6FD09A; --low-bg:#14372A; --mid:#F2B864; --mid-bg:#3B2C12; --high:#FF9D95; --high-bg:#401B19; --unk:#A4B4C0;
+  --focus:#7DB6F2;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:64rem;margin:0 auto;padding:0 1rem}
+a{color:var(--tram);text-underline-offset:.15em}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.top{background:var(--steel);color:var(--steel-text);border-bottom:4px solid var(--taxi)}
+.top a{color:var(--steel-text)}
+.top :focus-visible{outline-color:var(--taxi)}
+.brand{margin:0;padding:.9rem 0 0;font-weight:700;font-size:1rem;letter-spacing:.01em}
+.brand a{text-decoration:none}
+.brand a:hover{text-decoration:underline}
+
+.top .wrap{padding-bottom:1.4rem}
+.top h1{margin:.8rem 0 .3rem;font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;max-width:none}
+.meta{margin:0;color:var(--steel-muted)}
+.back{display:inline-block;margin-top:.9rem;font-weight:600}
+article{max-width:42rem;margin:0 auto;padding:1.5rem 1rem 3rem}
+article h2{font-size:1.15rem;font-weight:800;margin:2rem 0 .3rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+article h2:first-child{border-top:0;padding-top:0;margin-top:0}
+article p,article li{margin:.45rem 0}
+article ul{padding-left:1.25rem}
+footer{background:var(--card);border-top:1px solid var(--line);font-size:.9rem}
+footer .wrap{padding-top:1.2rem;padding-bottom:1.8rem;display:flex;flex-wrap:wrap;gap:.4rem 1.5rem}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="brand"><a href="index.html">Jowar</a></p>
+    <h1>Privacy policy</h1>
+    <p class="meta">Last updated 11 October 2026</p>
+    <a class="back" href="index.html">Back to the checker</a>
+  </div>
+</header>
+<article>
+<h2>Who runs this</h2>
+<p>Jowar is a student project built for the Environmental Hacks hackathon (WeMakeDevs with AWS). To contact the author, open an issue on this project's GitHub repository.</p>
+
+<h2>What is collected</h2>
+<p>Nothing is collected when you only look at results. If you tap the feedback button (Yes, it flooded, or No, it was fine), one record is saved with four items: the area you were checking, the departure hour, the risk level the page showed, and your yes or no answer, plus the time the record was made.</p>
+<p>The app does not ask for or store your name, phone number, email address, location or device identifiers. There are no accounts.</p>
+
+<h2>What is not used</h2>
+<ul>
+<li>No cookies and no browser storage.</li>
+<li>No analytics, advertising or tracking tools.</li>
+<li>No fonts, scripts or images loaded from other companies. The page runs from its own files.</li>
+</ul>
+
+<h2>Technical data, Vercel and AWS</h2>
+<p>The page is hosted on Vercel and the app's backend runs on Amazon Web Services. Like any hosted website, Vercel and AWS process basic technical request data, such as the IP address of your connection, to deliver the page and answer your requests. The author has not turned on analytics on Vercel. The author does not store IP addresses in the app's database and does not use them to identify anyone. API access logging is not turned on for this app. The app's function writes only error messages to its logs.</p>
+
+<h2>Weather and tide data</h2>
+<p>Rain data comes from Open-Meteo. The app's server asks Open-Meteo for rain at fixed points in Kolkata. No information about you is sent to Open-Meteo. Tide times are typed in by the author from a public prediction website.</p>
+
+<h2>How long records are kept</h2>
+<p>Feedback records are kept while the project is running. They are deleted when the project's AWS resources are removed after the hackathon judging ends. Because records contain no name or contact details, a single record cannot be traced back to you.</p>
+
+<h2>Your choices</h2>
+<p>You can use every part of the checker without tapping the feedback button.</p>
+
+<h2>Changes</h2>
+<p>If this policy changes, the date at the top will change.</p>
+</article>
+<footer>
+  <div class="wrap">
+    <a href="index.html">Checker</a>
+    <a href="privacy.html">Privacy policy</a>
+    <a href="terms.html">Terms of use</a>
+  </div>
+</footer>
+</body>
+</html>

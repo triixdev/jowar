@@ -1,0 +1,85 @@
+[
+ {
+  "id": "new-town",
+  "name": "New Town",
+  "lat": 22.59,
+  "lon": 88.47,
+  "chronic_spot": true,
+  "reported": [
+   "builder's own observation",
+   "named in PTI report on Cyclone Dana, 25 Oct 2024"
+  ]
+ },
+ {
+  "id": "kaikhali-haldiram",
+  "name": "Kaikhali / Haldiram bridge",
+  "lat": 22.634,
+  "lon": 88.428,
+  "chronic_spot": true,
+  "reported": [
+   "builder's own observation"
+  ]
+ },
+ {
+  "id": "salt-lake",
+  "name": "Salt Lake",
+  "lat": 22.587,
+  "lon": 88.417,
+  "chronic_spot": true,
+  "reported": [
+   "still waterlogged on 24 Sep 2025 after record rain (PTI)"
+  ]
+ },
+ {
+  "id": "dum-dum-vip",
+  "name": "Dum Dum / VIP Road",
+  "lat": 22.625,
+  "lon": 88.4,
+  "chronic_spot": true,
+  "reported": [
+   "named in PTI report on Cyclone Dana, 25 Oct 2024"
+  ]
+ },
+ {
+  "id": "esplanade-new-market",
+  "name": "Esplanade / New Market",
+  "lat": 22.564,
+  "lon": 88.353,
+  "chronic_spot": true,
+  "reported": [
+   "New Market and Dharmatala named in PTI report on Cyclone Dana, 25 Oct 2024"
+  ]
+ },
+ {
+  "id": "bhawanipur-hazra",
+  "name": "Bhawanipur / Hazra",
+  "lat": 22.528,
+  "lon": 88.346,
+  "chronic_spot": true,
+  "reported": [
+   "named in PTI report on Cyclone Dana, 25 Oct 2024"
+  ]
+ },
+ {
+  "id": "park-street-circus",
+  "name": "Park Street / Park Circus",
+  "lat": 22.547,
+  "lon": 88.362,
+  "chronic_spot": true,
+  "reported": [
+   "Park Circus named in PTI report on Cyclone Dana, 25 Oct 2024",
+   "Park Street: builder's own observation"
+  ]
+ },
+ {
+  "id": "behala",
+  "name": "Behala",
+  "lat": 22.4986,
+  "lon": 88.317,
+  "chronic_spot": true,
+  "reported": [
+   "named in PTI report on Cyclone Dana, 25 Oct 2024",
+   "builder's own observation"
+  ]
+ }
+]

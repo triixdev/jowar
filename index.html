@@ -1,0 +1,233 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Check rain and high tide risk for a Kolkata commute, by area and hour, using real Open-Meteo rain data and Garden Reach tide times.">
+<title>Jowar: rain + tide commute check</title>
+<style>
+:root{
+  --page:#F4F6F8; --card:#FFFFFF; --ink:#16232E; --muted:#475664; --line:#CBD4DB; --field:#FFFFFF;
+  --steel:#16232E; --steel-text:#F2F5F7; --steel-muted:#B4C1CC;
+  --taxi:#F4B400; --taxi-ink:#16232E;
+  --tram:#1B5FA8; --tram-bg:#E4EEF9;
+  --low:#17683F; --low-bg:#E3F3EA; --mid:#A65300; --mid-bg:#FCE9D2; --high:#A31F17; --high-bg:#FBE4E2; --unk:#5B6B77;
+  --focus:#1B5FA8;
+}
+@media (prefers-color-scheme: dark){
+  :root{--page:#0E161D; --card:#17222C; --ink:#E8EEF2; --muted:#A4B4C0; --line:#2C3E4C; --field:#0E161D;
+  --steel:#0A1117; --steel-text:#F2F5F7; --steel-muted:#A4B4C0;
+  --tram:#7DB6F2; --tram-bg:#16293C;
+  --low:#6FD09A; --low-bg:#14372A; --mid:#F2B864; --mid-bg:#3B2C12; --high:#FF9D95; --high-bg:#401B19; --unk:#A4B4C0;
+  --focus:#7DB6F2;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:64rem;margin:0 auto;padding:0 1rem}
+a{color:var(--tram);text-underline-offset:.15em}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.top{background:var(--steel);color:var(--steel-text);border-bottom:4px solid var(--taxi)}
+.top a{color:var(--steel-text)}
+.top :focus-visible{outline-color:var(--taxi)}
+.brand{margin:0;padding:.9rem 0 0;font-weight:700;font-size:1rem;letter-spacing:.01em}
+.brand a{text-decoration:none}
+.brand a:hover{text-decoration:underline}
+
+
+.top{position:relative;overflow:hidden}
+.top .wrap{position:relative;z-index:1}
+.top[data-sky="sun"]{background:#1F6FB5;--steel-muted:#E6F0F9}
+.top[data-sky="night"]{background:#101A2A;--steel-muted:#B4C1CC}
+.top[data-sky="light"],.top[data-sky="steady"],.top[data-sky="heavy"]{background:#2A3846;--steel-muted:#C9D5DE}
+.top[data-sky="heavy"]{background:#1F2B37}
+.sky{position:absolute;inset:0;pointer-events:none}
+.top{--sky-bg:var(--steel);--bridge:rgba(255,255,255,.18)}
+.top[data-sky="sun"]{--sky-bg:#1F6FB5;--bridge:rgba(255,255,255,.34)}
+.top[data-sky="night"]{--sky-bg:#101A2A;--bridge:rgba(255,255,255,.2)}
+.top[data-sky="light"],.top[data-sky="steady"]{--sky-bg:#2A3846;--bridge:rgba(255,255,255,.16)}
+.top[data-sky="heavy"]{--sky-bg:#1F2B37;--bridge:rgba(255,255,255,.13)}
+
+.top[data-photo="1"]{background-size:cover;background-position:center 55%}
+.top[data-photo="1"][data-sky="sun"]{background-image:url(img/howrah-sunny.jpg)}
+.top[data-photo="1"][data-sky="light"],.top[data-photo="1"][data-sky="steady"],.top[data-photo="1"][data-sky="heavy"]{background-image:url(img/howrah-rain.jpg)}
+.top[data-photo="1"][data-sky="sun"]::before,.top[data-photo="1"][data-sky="light"]::before,.top[data-photo="1"][data-sky="steady"]::before,.top[data-photo="1"][data-sky="heavy"]::before{content:"";position:absolute;inset:0;background:rgba(8,18,28,.52)}
+.top[data-photo="1"][data-sky="sun"] .sun,.top[data-photo="1"][data-sky="sun"] .cloud,.top[data-photo="1"][data-sky="sun"] .bridge,.top[data-photo="1"][data-sky="light"] .cloud,.top[data-photo="1"][data-sky="steady"] .cloud,.top[data-photo="1"][data-sky="heavy"] .cloud,.top[data-photo="1"] .sky > .bridge{display:none !important}
+.credit{margin-top:.8rem !important}
+.bridge{display:none;position:absolute;right:0;bottom:0;width:min(44rem,62%);height:auto}
+.bridge path{fill:none;stroke:var(--bridge);stroke-linejoin:round}
+.bridge .chord{stroke-width:3}
+.bridge .lat{stroke-width:1.4}
+.bridge .deckline{stroke-width:5}
+@media (min-width:52rem){.sky > .bridge{display:block}}
+
+.sky > *{display:none;position:absolute}
+.sun{width:3rem;height:3rem;right:1rem;top:.5rem}
+.moon{width:2.2rem;height:2.2rem;right:1.2rem;top:.7rem}
+@media (max-width:51.99rem){.top .cloud{display:none !important}}
+.cloud{height:auto;fill:#FFFFFF}
+.c1{width:9rem;right:7rem;top:1.4rem}
+.c2{width:6rem;right:1rem;top:5.5rem}
+@media (min-width:52rem){.sun{width:9rem;height:9rem;right:12%;top:1rem}.moon{width:5rem;height:5rem;right:14%;top:1.5rem}.c1{width:14rem;right:26%;top:2.2rem}.c2{width:10rem;right:6%;top:8rem}}
+.top[data-sky="sun"] .sun,.top[data-sky="sun"] .c1,.top[data-sky="sun"] .c2,.top[data-sky="night"] .moon{display:block}
+.top[data-sky="sun"] .c1,.top[data-sky="sun"] .c2{opacity:.9}
+.top[data-sky="light"] .cloud,.top[data-sky="steady"] .cloud,.top[data-sky="heavy"] .cloud{display:block;fill:#43566A}
+.top[data-sky="heavy"] .cloud{fill:#33444F}
+.top[data-sky="light"] .c1,.top[data-sky="steady"] .c1,.top[data-sky="heavy"] .c1{width:16rem;right:4%;top:-1.2rem}
+.top[data-sky="light"] .c2,.top[data-sky="steady"] .c2,.top[data-sky="heavy"] .c2{width:12rem;right:34%;top:-.8rem}
+.rain{inset:0;overflow:hidden}
+.top[data-sky="light"] .rain,.top[data-sky="steady"] .rain,.top[data-sky="heavy"] .rain{display:block}
+.rain i{position:absolute;top:-1.5rem;width:2px;height:1.1rem;background:#9DB9D1;opacity:.5;transform:rotate(12deg);animation:fall .9s linear infinite}
+.top[data-sky="light"] .rain i:nth-child(n+15){display:none}
+.top[data-sky="steady"] .rain i:nth-child(n+31){display:none}
+@keyframes fall{to{transform:translate(2.5rem,26rem) rotate(12deg)}}
+@media (prefers-reduced-motion: reduce){.rain i{animation:none;top:calc(var(--n,0) * 1px)}.rain i:nth-child(3n){top:30%}.rain i:nth-child(3n+1){top:55%}.rain i:nth-child(3n+2){top:80%}}
+h1{margin:.9rem 0 .5rem;font-size:clamp(1.75rem,5.2vw,2.75rem);line-height:1.08;font-weight:800;letter-spacing:-.025em;max-width:20ch}
+.lede{margin:0 0 1.5rem;max-width:38rem;color:var(--steel-muted);font-size:1.05rem}
+.tabs{display:flex;gap:1.5rem}
+.tab{padding:.7rem 0 .6rem;border:0;border-bottom:4px solid transparent;margin-bottom:-4px;background:none;color:var(--steel-muted);font:inherit;font-weight:600;cursor:pointer;text-align:left}
+.tab small{display:block;font-weight:400;font-size:.82rem}
+.tab:hover{color:var(--steel-text)}
+.tab[aria-pressed="true"]{color:var(--steel-text);border-bottom-color:var(--taxi)}
+.layout{display:grid;grid-template-columns:1fr;gap:1.25rem;padding-top:1.5rem;padding-bottom:3rem;align-items:start}
+@media (min-width:52rem){.layout{grid-template-columns:19rem 1fr;gap:2rem}.controls{position:sticky;top:1rem}}
+.panel{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1.1rem}
+.panel h2{margin:0 0 .9rem;font-size:1.1rem;font-weight:800}
+.controls .fields{display:grid;grid-template-columns:1fr 1fr;gap:.9rem}
+.controls .fields > div:not(:nth-last-child(-n+2)){grid-column:1 / -1}
+@media (min-width:52rem){.controls .fields{grid-template-columns:1fr}.controls .fields > div{grid-column:auto !important}}
+label{display:block;font-size:.88rem;font-weight:600;margin-bottom:.25rem}
+select{width:100%;min-height:2.9rem;padding:.55rem .6rem;font:inherit;color:var(--ink);background:var(--field);border:1.5px solid var(--line);border-radius:4px}
+select:hover:not(:disabled){border-color:var(--muted)}
+select:disabled{opacity:.6}
+button.go{width:100%;margin-top:1.1rem;min-height:3rem;padding:.7rem 1rem;font:inherit;font-weight:800;color:var(--taxi-ink);background:var(--taxi);border:2px solid var(--taxi-ink);border-radius:4px;cursor:pointer}
+button.go:hover:not(:disabled){background:#FFC72C}
+button.go:disabled{opacity:.6;cursor:wait}
+@media (prefers-color-scheme: dark){button.go{border-color:var(--taxi)}}
+#result:empty{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1.25rem}
+#result:empty::before{content:"Pick an area, a day and a departure hour, then press Check this trip. You will see the risk level, the reasons behind it and the risk for every hour of that day.";color:var(--muted);display:block;max-width:34rem}
+#result > div:not(.err){background:var(--card);border:1px solid var(--line);border-radius:6px;padding:1.25rem}
+.verdict{display:grid;grid-template-columns:auto 1fr;gap:1.1rem;align-items:center;border-radius:4px;padding:1rem 1.1rem;border-left:10px solid var(--unk);background:var(--page)}
+.verdict[data-level="Lower risk"]{background:var(--low-bg);border-left-color:var(--low)}
+.verdict[data-level="Caution"]{background:var(--mid-bg);border-left-color:var(--mid)}
+.verdict[data-level="High risk"]{background:var(--high-bg);border-left-color:var(--high)}
+.staff{width:2.4rem;height:6.5rem;display:flex;flex-direction:column;gap:2px;padding:2px;border:2px solid var(--ink);border-radius:4px;background:var(--card)}
+.staff i{flex:1;opacity:.2;border-radius:1px}
+.staff i:nth-child(1){background:var(--high)}
+.staff i:nth-child(2){background:var(--mid)}
+.staff i:nth-child(3){background:var(--low)}
+.staff[data-level="High risk"] i:nth-child(1),.staff[data-level="Caution"] i:nth-child(2),.staff[data-level="Lower risk"] i:nth-child(3){opacity:1}
+.level{margin:0;font-size:clamp(1.8rem,6vw,2.4rem);line-height:1.05;font-weight:800;letter-spacing:-.02em}
+.verdict[data-level="Lower risk"] .level{color:var(--low)}
+.verdict[data-level="Caution"] .level{color:var(--mid)}
+.verdict[data-level="High risk"] .level{color:var(--high)}
+.sub{margin:.3rem 0 0;color:var(--ink);font-size:1.02rem}
+ul.why{margin:1rem 0 0;padding:0;list-style:none;border-top:1px solid var(--line)}
+ul.why li{padding:.6rem 0;border-bottom:1px solid var(--line)}
+ul.why li::first-letter{text-transform:uppercase}
+.better{margin:1rem 0 0;padding:.7rem .9rem;font-weight:700;background:var(--tram-bg);border-left:4px solid var(--tram);border-radius:2px}
+#result h2{font-size:1.1rem;font-weight:800;margin:1.6rem 0 .2rem}
+.hint{font-size:.9rem;color:var(--muted);margin:.4rem 0 .6rem;max-width:42rem}
+.strip{display:grid;grid-template-columns:repeat(24,1fr);gap:3px;align-items:end;height:7rem;margin-top:1.1rem;border-bottom:3px solid var(--ink)}
+.cell{position:relative;border-radius:2px 2px 0 0;min-height:.4rem}
+.cell[data-level="Lower risk"]{height:30%;background:var(--low)}
+.cell[data-level="Caution"]{height:62%;background:var(--mid)}
+.cell[data-level="High risk"]{height:100%;background:var(--high)}
+.cell[data-level="Unknown"]{height:18%;background:var(--unk);opacity:.5}
+.cell.sel{outline:3px solid var(--ink);outline-offset:1px;z-index:1}
+.cell.tide::after{content:"";position:absolute;left:50%;top:-.8rem;width:.7rem;height:.6rem;margin-left:-.35rem;background:var(--tram);clip-path:polygon(50% 100%,0 0,100% 0)}
+.ticks{display:grid;grid-template-columns:repeat(8,1fr);font-size:.8rem;color:var(--muted);margin-top:.3rem;font-variant-numeric:tabular-nums}
+.key{display:flex;flex-wrap:wrap;gap:.4rem 1.1rem;margin:.7rem 0 0;font-size:.85rem;color:var(--muted)}
+.key > span{display:inline-flex;align-items:center;gap:.4rem}
+.key em{font-style:normal}
+.key b{display:inline-block;width:.8rem;height:.8rem;border-radius:2px}
+.key .k-low{background:var(--low)}.key .k-mid{background:var(--mid)}.key .k-high{background:var(--high)}
+.key .k-tide{background:var(--tram);clip-path:polygon(50% 100%,0 0,100% 0);height:.7rem}
+.legend{font-size:.85rem;color:var(--muted);margin:.5rem 0 0}
+.fb{display:flex;flex-wrap:wrap;gap:.6rem}
+.fb button{min-height:2.75rem;padding:.5rem 1rem;font:inherit;font-weight:600;color:var(--ink);background:var(--card);border:2px solid var(--ink);border-radius:4px;cursor:pointer}
+.fb button:hover:not(:disabled){background:var(--page)}
+.fb button:disabled{opacity:.45;cursor:not-allowed}
+.note{margin-top:1.1rem;padding:.75rem .9rem;border-left:4px solid var(--mid);background:var(--mid-bg);font-size:.92rem;border-radius:2px}
+.err{margin-top:0;padding:.8rem .95rem;border-left:4px solid var(--high);background:var(--high-bg);border-radius:2px}
+.why{border-top:1px solid var(--line);padding-top:1.6rem;padding-bottom:2.5rem}
+.why h2{margin:0 0 .4rem;font-size:1.2rem;font-weight:800}
+.why .lede{max-width:46rem;margin:.2rem 0 1.1rem}
+.why dl{display:grid;gap:1rem 2.5rem;margin:0}
+@media (min-width:52rem){.why dl{grid-template-columns:repeat(2,1fr)}}
+.why dt{font-weight:800}
+.why dd{margin:.15rem 0 0;color:var(--muted);max-width:30rem}
+.why .limit{margin:1.25rem 0 0;padding:.7rem .9rem;border-left:4px solid var(--mid);background:var(--mid-bg);max-width:46rem}
+footer{background:var(--card);border-top:1px solid var(--line);font-size:.88rem;color:var(--muted)}
+footer .wrap{padding-top:1.5rem;padding-bottom:2.5rem;display:grid;gap:.2rem 2rem}
+@media (min-width:52rem){footer .wrap{grid-template-columns:1fr 1fr}}
+footer p{margin:.4rem 0;max-width:36rem}
+footer strong{color:var(--ink)}
+.legal{display:flex;gap:1.25rem;margin:.8rem 0 0}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<header class="top" id="sky" data-sky="idle">
+  <div class="sky" aria-hidden="true">
+      <svg class="sun" viewBox="0 0 120 120"><g stroke="#FFC83D" stroke-width="5" stroke-linecap="round"><path d="M60 6v14M60 100v14M6 60h14M100 60h14M22 22l10 10M88 88l10 10M98 22L88 32M32 88L22 98"/></g><circle cx="60" cy="60" r="27" fill="#FFC83D"/></svg>
+      <svg class="moon" viewBox="0 0 100 100"><path d="M62 10a42 42 0 1 0 28 66A36 36 0 0 1 62 10z" fill="#E8EEF2"/></svg>
+      <svg class="bridge" viewBox="0 0 600 100" preserveAspectRatio="xMaxYMax meet"><path class="chord" d="M20 80 L170 12 L236 42 L364 42 L430 12 L580 80"/><path class="lat" d="M24 78.2V84 M24 84L40 70.9 M40 70.9V84 M40 84L56 63.7 M56 63.7V84 M56 84L72 56.4 M72 56.4V84 M72 84L88 49.2 M88 49.2V84 M88 84L104 41.9 M104 41.9V84 M104 84L120 34.7 M120 34.7V84 M120 84L136 27.4 M136 27.4V84 M136 84L152 20.2 M152 20.2V84 M152 84L168 12.9 M168 12.9V84 M168 84L184 18.4 M184 18.4V84 M184 84L200 25.6 M200 25.6V84 M200 84L216 32.9 M216 32.9V84 M216 84L232 40.2 M232 40.2V84 M232 84L248 42.0 M248 42.0V84 M248 84L264 42.0 M264 42.0V84 M264 84L280 42.0 M280 42.0V84 M280 84L296 42.0 M296 42.0V84 M296 84L312 42.0 M312 42.0V84 M312 84L328 42.0 M328 42.0V84 M328 84L344 42.0 M344 42.0V84 M344 84L360 42.0 M360 42.0V84 M360 84L376 36.5 M376 36.5V84 M376 84L392 29.3 M392 29.3V84 M392 84L408 22.0 M408 22.0V84 M408 84L424 14.7 M424 14.7V84 M424 84L440 16.5 M440 16.5V84 M440 84L456 23.8 M456 23.8V84 M456 84L472 31.0 M472 31.0V84 M472 84L488 38.3 M488 38.3V84 M488 84L504 45.5 M504 45.5V84 M504 84L520 52.8 M520 52.8V84 M520 84L536 60.1 M536 60.1V84 M536 84L552 67.3 M552 67.3V84 M552 84L568 74.6 M568 74.6V84 M568 84L584 84.0"/><path class="chord" d="M150 84L164 12M190 84L176 12M410 84L424 12M450 84L436 12"/><path class="deckline" d="M0 84H600"/></svg>
+      <svg class="cloud c1" viewBox="0 0 200 70"><path d="M40 66a24 24 0 0 1-2-48 34 34 0 0 1 64-6 28 28 0 0 1 48 16 22 22 0 0 1-4 38z"/></svg>
+      <svg class="cloud c2" viewBox="0 0 200 70"><path d="M40 66a24 24 0 0 1-2-48 34 34 0 0 1 64-6 28 28 0 0 1 48 16 22 22 0 0 1-4 38z"/></svg>
+      <div class="rain"><i style="left:42%;animation-delay:-1.33s;animation-duration:0.90s"></i><i style="left:7%;animation-delay:-0.10s;animation-duration:0.97s"></i><i style="left:47%;animation-delay:-0.82s;animation-duration:1.15s"></i><i style="left:28%;animation-delay:-0.05s;animation-duration:0.92s"></i><i style="left:9%;animation-delay:-0.34s;animation-duration:0.98s"></i><i style="left:8%;animation-delay:-1.16s;animation-duration:0.76s"></i><i style="left:29%;animation-delay:-0.88s;animation-duration:0.99s"></i><i style="left:8%;animation-delay:-0.81s;animation-duration:0.90s"></i><i style="left:29%;animation-delay:-0.07s;animation-duration:1.13s"></i><i style="left:38%;animation-delay:-0.59s;animation-duration:0.97s"></i><i style="left:74%;animation-delay:-0.43s;animation-duration:1.11s"></i><i style="left:24%;animation-delay:-0.14s;animation-duration:0.99s"></i><i style="left:25%;animation-delay:-0.52s;animation-duration:0.97s"></i><i style="left:9%;animation-delay:-0.79s;animation-duration:1.01s"></i><i style="left:64%;animation-delay:-0.95s;animation-duration:0.91s"></i><i style="left:41%;animation-delay:-0.65s;animation-duration:1.16s"></i><i style="left:47%;animation-delay:-0.42s;animation-duration:1.10s"></i><i style="left:90%;animation-delay:-1.09s;animation-duration:0.74s"></i><i style="left:39%;animation-delay:-0.74s;animation-duration:1.14s"></i><i style="left:94%;animation-delay:-0.63s;animation-duration:1.00s"></i><i style="left:10%;animation-delay:-0.17s;animation-duration:0.91s"></i><i style="left:97%;animation-delay:-0.48s;animation-duration:1.17s"></i><i style="left:54%;animation-delay:-0.05s;animation-duration:1.03s"></i><i style="left:98%;animation-delay:-0.78s;animation-duration:1.09s"></i><i style="left:41%;animation-delay:-0.48s;animation-duration:0.88s"></i><i style="left:64%;animation-delay:-0.81s;animation-duration:0.93s"></i><i style="left:12%;animation-delay:-1.32s;animation-duration:0.94s"></i><i style="left:86%;animation-delay:-0.09s;animation-duration:1.07s"></i><i style="left:40%;animation-delay:-0.91s;animation-duration:1.20s"></i><i style="left:58%;animation-delay:-0.40s;animation-duration:0.89s"></i><i style="left:86%;animation-delay:-0.49s;animation-duration:1.17s"></i><i style="left:46%;animation-delay:-0.24s;animation-duration:0.76s"></i><i style="left:8%;animation-delay:-0.31s;animation-duration:0.84s"></i><i style="left:95%;animation-delay:-0.35s;animation-duration:0.90s"></i><i style="left:64%;animation-delay:-0.11s;animation-duration:0.92s"></i><i style="left:71%;animation-delay:-0.39s;animation-duration:0.77s"></i><i style="left:56%;animation-delay:-1.21s;animation-duration:0.84s"></i><i style="left:54%;animation-delay:-1.38s;animation-duration:1.04s"></i><i style="left:49%;animation-delay:-1.34s;animation-duration:0.78s"></i><i style="left:23%;animation-delay:-0.21s;animation-duration:1.03s"></i><i style="left:2%;animation-delay:-0.68s;animation-duration:0.99s"></i><i style="left:34%;animation-delay:-0.39s;animation-duration:0.77s"></i><i style="left:69%;animation-delay:-0.52s;animation-duration:0.98s"></i><i style="left:17%;animation-delay:-0.97s;animation-duration:0.96s"></i><i style="left:80%;animation-delay:-0.92s;animation-duration:1.07s"></i><i style="left:59%;animation-delay:-1.26s;animation-duration:1.09s"></i><i style="left:88%;animation-delay:-1.12s;animation-duration:0.90s"></i><i style="left:52%;animation-delay:-0.55s;animation-duration:0.94s"></i><i style="left:52%;animation-delay:-0.09s;animation-duration:0.73s"></i><i style="left:27%;animation-delay:-0.62s;animation-duration:0.75s"></i><i style="left:77%;animation-delay:-0.07s;animation-duration:0.70s"></i><i style="left:20%;animation-delay:-0.75s;animation-duration:1.17s"></i><i style="left:79%;animation-delay:-0.04s;animation-duration:1.14s"></i><i style="left:79%;animation-delay:-0.53s;animation-duration:1.02s"></i><i style="left:45%;animation-delay:-0.84s;animation-duration:0.94s"></i><i style="left:15%;animation-delay:-1.19s;animation-duration:1.20s"></i></div>
+    </div>
+  <div class="wrap">
+    <p class="brand"><a href="index.html">Jowar</a></p>
+    <h1>Check rain and high tide before you leave</h1>
+    <p class="lede">When heavy rain lands on a high tide, Kolkata drains slowly. Pick where you are travelling and when, and see the risk for that hour.</p>
+    <div class="tabs" role="group" aria-label="Data mode">
+      <button class="tab" id="tab-live" aria-pressed="true" type="button">Live forecast<small>Next 3 days</small></button>
+      <button class="tab" id="tab-replay" aria-pressed="false" type="button">Replay: past floods<small>Real events, modelled rain</small></button>
+    </div>
+  </div>
+</header>
+
+<main class="wrap layout">
+  <section class="panel controls" aria-labelledby="ctl">
+    <h2 id="ctl">Your trip</h2>
+    <div class="fields">
+      <div id="evwrap" class="hidden"><label for="event">Event</label><select id="event"></select></div>
+      <div><label for="area">Area</label><select id="area"></select></div>
+      <div><label for="day">Day</label><select id="day"></select></div>
+      <div><label for="hour">Leave around</label><select id="hour"></select></div>
+    </div>
+    <button class="go" id="go" type="button">Check this trip</button>
+  </section>
+
+  <div id="result" aria-live="polite"></div>
+</main>
+
+<section class="wrap why" aria-labelledby="why-h">
+  <h2 id="why-h">Why not just use a weather app?</h2>
+  <p class="lede">For one area and one departure hour, Jowar adds up the rain around that hour, checks whether a Garden Reach high tide falls near it, and suggests a better hour. Here is how that differs from the usual ways of checking.</p>
+  <dl>
+    <div><dt>Weather apps and rain maps such as Windy</dt><dd>Show how much rain is coming for a place. Jowar adds the high tide and turns both into one answer for each area and hour.</dd></div>
+    <div><dt>IMD alerts</dt><dd>Give one colour warning for a whole district. Jowar answers for a named area and an hour.</dd></div>
+    <div><dt>News and TV</dt><dd>Report flooding once it has started. Jowar looks at the hours ahead so you can pick when to leave.</dd></div>
+    <div><dt>Calling someone local</dt><dd>Tells you what one road looks like right now. Jowar covers 8 areas for the next 3 days without anyone standing on the road. On a risky day, do both.</dd></div>
+  </dl>
+  <p class="limit">Jowar uses the same kind of free forecast data as weather apps, so it is no better at predicting rain. It missed the burst on 23 September 2025. Use it to plan, then confirm with local news or someone on the road.</p>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div>
+      <p><strong>Limits.</strong> The risk levels come from simple rules with placeholder thresholds, not AI and not a flood prediction. Rain models can under-forecast heavy bursts. Tide times are for Garden Reach and differ along the river. Always check the road before you go.</p>
+      <p id="credit" class="credit hidden">Header photos: PHOTO CREDITS GO HERE.</p>
+      <p>No names, phone numbers or locations are collected. A feedback tap stores only the area, the hour, the level shown and yes or no.</p>
+    </div>
+    <div>
+      <p>Rain data: <a href="https://open-meteo.com/">Open-Meteo.com</a> (CC BY 4.0). Tide times: <a href="https://www.tide-forecast.com/locations/Calcutta-Garden-Reach-India/tides/latest">tide-forecast.com</a>, Calcutta (Garden Reach). Built for the Environmental Hacks hackathon.</p>
+      <nav class="legal" aria-label="Legal"><a href="privacy.html">Privacy policy</a><a href="terms.html">Terms of use</a></nav>
+    </div>
+  </div>
+</footer>
+
+<script src="app.js"></script>
+</body>
+</html>

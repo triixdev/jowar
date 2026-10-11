@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="Terms of use for Jowar, a student project that shows rain and tide risk for Kolkata commutes.">
+<title>Terms of use | Jowar</title>
+<style>
+:root{
+  --page:#F4F6F8; --card:#FFFFFF; --ink:#16232E; --muted:#475664; --line:#CBD4DB; --field:#FFFFFF;
+  --steel:#16232E; --steel-text:#F2F5F7; --steel-muted:#B4C1CC;
+  --taxi:#F4B400; --taxi-ink:#16232E;
+  --tram:#1B5FA8; --tram-bg:#E4EEF9;
+  --low:#17683F; --low-bg:#E3F3EA; --mid:#A65300; --mid-bg:#FCE9D2; --high:#A31F17; --high-bg:#FBE4E2; --unk:#5B6B77;
+  --focus:#1B5FA8;
+}
+@media (prefers-color-scheme: dark){
+  :root{--page:#0E161D; --card:#17222C; --ink:#E8EEF2; --muted:#A4B4C0; --line:#2C3E4C; --field:#0E161D;
+  --steel:#0A1117; --steel-text:#F2F5F7; --steel-muted:#A4B4C0;
+  --tram:#7DB6F2; --tram-bg:#16293C;
+  --low:#6FD09A; --low-bg:#14372A; --mid:#F2B864; --mid-bg:#3B2C12; --high:#FF9D95; --high-bg:#401B19; --unk:#A4B4C0;
+  --focus:#7DB6F2;}
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--page);color:var(--ink);font:16px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif;-webkit-text-size-adjust:100%}
+.wrap{max-width:64rem;margin:0 auto;padding:0 1rem}
+a{color:var(--tram);text-underline-offset:.15em}
+:focus-visible{outline:3px solid var(--focus);outline-offset:2px}
+.top{background:var(--steel);color:var(--steel-text);border-bottom:4px solid var(--taxi)}
+.top a{color:var(--steel-text)}
+.top :focus-visible{outline-color:var(--taxi)}
+.brand{margin:0;padding:.9rem 0 0;font-weight:700;font-size:1rem;letter-spacing:.01em}
+.brand a{text-decoration:none}
+.brand a:hover{text-decoration:underline}
+
+.top .wrap{padding-bottom:1.4rem}
+.top h1{margin:.8rem 0 .3rem;font-size:clamp(1.7rem,5vw,2.4rem);line-height:1.1;font-weight:800;letter-spacing:-.02em;max-width:none}
+.meta{margin:0;color:var(--steel-muted)}
+.back{display:inline-block;margin-top:.9rem;font-weight:600}
+article{max-width:42rem;margin:0 auto;padding:1.5rem 1rem 3rem}
+article h2{font-size:1.15rem;font-weight:800;margin:2rem 0 .3rem;padding-top:1.2rem;border-top:1px solid var(--line)}
+article h2:first-child{border-top:0;padding-top:0;margin-top:0}
+article p,article li{margin:.45rem 0}
+article ul{padding-left:1.25rem}
+footer{background:var(--card);border-top:1px solid var(--line);font-size:.9rem}
+footer .wrap{padding-top:1.2rem;padding-bottom:1.8rem;display:flex;flex-wrap:wrap;gap:.4rem 1.5rem}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <p class="brand"><a href="index.html">Jowar</a></p>
+    <h1>Terms of use</h1>
+    <p class="meta">Last updated 11 October 2026</p>
+    <a class="back" href="index.html">Back to the checker</a>
+  </div>
+</header>
+<article>
+<h2>What this is</h2>
+<p>Jowar is a student hackathon prototype. It is free to use and is provided as it is, without any promise that it will be available, correct or complete.</p>
+
+<h2>It is not an official warning</h2>
+<p>The risk levels (Lower risk, Caution, High risk) come from simple rules applied to forecast rain and predicted high tide times. They are not a flood prediction. They do not come from the India Meteorological Department, the Kolkata Municipal Corporation or any other authority. Do not rely on this page for decisions about your safety. Check the road yourself and follow official advice. In an emergency, contact local emergency services.</p>
+
+<h2>Known limits</h2>
+<ul>
+<li>The rain figures are modelled values. For Cyclone Dana in October 2024 the model showed about 40 mm in the 24 hours to 11:30 am, while the Alipore Met office recorded over 100 mm.</li>
+<li>Tide times are predictions for Garden Reach. Timing differs along the river.</li>
+<li>The thresholds that turn rain and tide into a level are placeholders chosen by the author and have not been checked against official guidance.</li>
+<li>The Replay tab re-runs past events with modelled rain. It is a sanity check, not proof of accuracy.</li>
+<li>Flood history notes for each area come from the sources listed in the project's repository and from the author's own observation.</li>
+</ul>
+
+<h2>Using the service</h2>
+<p>Please do not send automated bulk requests, try to break the service, or submit false feedback in bulk. Requests are rate limited and abusive use may be blocked.</p>
+
+<h2>Data and credits</h2>
+<p>Rain data: <a href="https://open-meteo.com/">Open-Meteo.com</a>, licensed under CC BY 4.0. Tide times: <a href="https://www.tide-forecast.com/locations/Calcutta-Garden-Reach-India/tides/latest">tide-forecast.com</a>, Calcutta (Garden Reach).</p>
+
+<h2>Availability</h2>
+<p>The service may be changed or taken down after the hackathon without notice.</p>
+
+<h2>Liability</h2>
+<p>To the extent the law allows, the author is not responsible for any loss or damage that results from using this page or relying on its results.</p>
+
+<h2>Contact and changes</h2>
+<p>To contact the author, open an issue on this project's GitHub repository. If these terms change, the date at the top will change. See also the <a href="privacy.html">privacy policy</a>.</p>
+</article>
+<footer>
+  <div class="wrap">
+    <a href="index.html">Checker</a>
+    <a href="privacy.html">Privacy policy</a>
+    <a href="terms.html">Terms of use</a>
+  </div>
+</footer>
+</body>
+</html>
