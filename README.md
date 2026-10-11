@@ -80,8 +80,5 @@ node test_ui.js
 ## Legal
 See `privacy.html` and `terms.html`. Both are linked from the page footer. They are plain-language statements for a student project.
 
-## License
-The code is under the MIT License (see `LICENSE`). The data keeps its own terms: Open-Meteo data is CC BY 4.0, and the tide times in `tides.json` come from tide-forecast.com, whose terms apply.
-
 ## Deploy
 See `DEPLOY.md`.
