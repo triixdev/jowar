@@ -1,10 +1,10 @@
 # Jowar: rain + tide commute check
 
 Built for **Environmental Hacks** (Bharat Builds Tour, WeMakeDevs x AWS), track **Heat and Water** (monsoon waterlogging).
-First commit: `[FILL IN: date and time of your first commit]`.
+First commit: 11 Oct 2026, 19:55 IST.
 
-**Live URL:** `[FILL IN: your Vercel URL]`
-**Demo video:** `[FILL IN: your YouTube link]`
+**Live URL:** https://jowar.vercel.app
+**Demo video:** https://youtu.be/6vLB2iOE2k0
 
 ## The problem
 In Kolkata the same rain is worse when it lands on a high tide. The drains empty into the Hooghly, and the mayor said during Cyclone Dana (25 Oct 2024) that high tide and continuing rain could slow drainage. Commuters get stuck on main roads such as Behala, Hazra, Bhawanipur, VIP Road and New Town, and they have no way to see rain and tide together before choosing when to leave.
@@ -56,7 +56,7 @@ flowchart LR
 
 ## Data and credits
 - Rain: [Open-Meteo](https://open-meteo.com/) forecast and archive APIs (CC BY 4.0, non-commercial free tier). Modelled data, not gauge readings.
-- Tide: high-tide times for Calcutta (Garden Reach) typed from [tide-forecast.com](https://www.tide-forecast.com/locations/Calcutta-Garden-Reach-India/tides/latest) on 11 Oct 2026. A prediction site, not official. `[CHECK their terms before keeping tides.json public]`
+- Tide: high-tide times for Calcutta (Garden Reach) typed by hand from [tide-forecast.com](https://www.tide-forecast.com/locations/Calcutta-Garden-Reach-India/tides/latest) on 11 Oct 2026, for 11 to 20 Oct only. A prediction site, not official. I did not find a licence that covers reuse, so the site is credited here and on the page, and `tides.json` will be removed if the site objects.
 - Flood history per area: PTI report on Cyclone Dana (25 Oct 2024) via The Week, PTI via Deccan Herald (24 Sep 2025), and the builder's own observation. Each source is listed in `corridors.json`.
 
 ## Honest limits
@@ -65,7 +65,10 @@ flowchart LR
 - No tide table is loaded for the replay dates, so tide is not counted there. The page says so.
 - Thresholds are guesses and are not validated against IMD or KMC guidance.
 - Garden Reach tide timing differs along the river. Rain varies little across one city in this model, so areas differ mostly by their history note.
-- `[FILL IN after step 6 of the guide: what happened when 3 people tried it]`
+- Not yet tested with people outside the builder. Feedback taps are the planned way to collect that.
+
+## AI tools used
+Claude (Anthropic) was used as a coding assistant for the page, the Lambda code, the tests and the deployment guide. The idea, the area list, the flood history sources and the AWS setup decisions are the builder's own.
 
 ## Privacy
 No names, phone numbers, IP addresses or locations are stored. Feedback stores only: area, departure hour, the level shown, and yes or no.
